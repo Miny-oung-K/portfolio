@@ -1,5 +1,48 @@
+:root {
+  --color-accent: oklch(65% 50% 0);
+  accent-color: var(--color-accent);
+}
+
 body {
-  max-width: 100ch;
-  margin-inline: auto;           
-  padding-inline: 1em;   
+  font: 100%/1.5 system-ui;
+  max-width: 100ch;      
+  margin-inline: auto;
+  padding-inline: 1em;     
+  margin-inline: max(1em, (100% - 100ch) / 2); 
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+nav {
+  display: flex;  
+  border-bottom: 1px solid oklch(80% 3% 200); 
+  margin-bottom: 1rem; 
+}
+
+nav a {
+  flex: 1;                      
+  text-align: center;    
+  text-decoration: none;    
+  color: inherit;        
+  padding: 0.5em 0;     
+  border-bottom: 0.4em solid transparent;   
+  transition: background-color .15s, border-color .15s;
+  font-weight: 600;
+}
+
+nav a.current {
+  border-bottom-color: oklch(80% 3% 200);  
+  padding-bottom: 0.1em;             
+  font-weight: 700;
+}
+
+nav a:hover {
+  border-bottom-color: var(--color-accent);
+  padding-bottom: 0.1em;
+  background-color: oklch(from var(--color-accent) 95% 5% h);
 }
