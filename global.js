@@ -4,13 +4,14 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
+
 const pages = [
-  { url: "",            title: "Home" },
-  { url: "projects/",   title: "Projects" },
-  { url: "resume/",     title: "Resume" },
-  { url: "contact/",    title: "Contact" },
-  { url: "https://github.com/Miny-oung-K",                title: "GitHub" },
-  { url: "https://www.linkedin.com/in/minyoungkim/",      title: "LinkedIn" },
+  { url: "", title: "Home" },
+  { url: "projects/", title: "Projects" },
+  { url: "resume/", title: "Resume" },
+  { url: "contact/", title: "Contact" },
+  { url: "https://github.com/Miny-oung-K", title: "GitHub" },
+  { url: "https://www.linkedin.com/in/minyoung-kim-360189222/", title: "LinkedIn" },
 ];
 
 const isLocal =
@@ -42,6 +43,7 @@ for (const p of pages) {
     a.rel = "noopener noreferrer";
   }
 
+  // Highlight current page
   a.classList.toggle(
     "current",
     a.host === location.host && a.pathname === location.pathname
@@ -49,3 +51,38 @@ for (const p of pages) {
 
   nav.append(a);
 }
+
+
+document.body.insertAdjacentHTML(
+  "afterbegin",
+  `
+  <label class="color-scheme">
+    Theme:
+    <select id="color-scheme-select">
+      <option value="light dark">Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+  `
+);
+
+const select = document.getElementById("color-scheme-select");
+
+
+function setColorScheme(value) {
+  document.documentElement.style.setProperty("color-scheme", value);
+}
+
+const saved = localStorage.colorScheme;
+const initial = saved ? saved : "light dark";
+setColorScheme(initial);
+select.value = initial;
+
+
+select.addEventListener("input", (e) => {
+  const value = e.target.value;
+  setColorScheme(value);
+  localStorage.colorScheme = value;
+  console.log(`Color scheme changed to: ${value}`);
+});
