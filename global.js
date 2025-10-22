@@ -105,7 +105,7 @@ export async function fetchJSON(url) {
   }
 }
 
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+export function renderProjects(projects, containerElement, headingLevel = 'h2', baseUrl = document.baseURI) {
   containerElement.innerHTML = '';
 
   if (!projects || projects.length === 0) {
@@ -114,10 +114,18 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   }
 
   for (const project of projects) {
+    let imgSrc = project.image || '../images/placeholder.png';
+    if (!/^https?:\/\//i.test(imgSrc)) {
+      try {
+        imgSrc = new URL(imgSrc, baseUrl).toString();
+      } catch {
+      }
+    }
+
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title || 'Untitled Project'}</${headingLevel}>
-      <img src="${project.image || '../images/placeholder.png'}" alt="${project.title || 'Project image'}">
+      <img src="${imgSrc}" alt="${project.title || 'Project image'}">
       <p>${project.description || 'No description available.'}</p>
     `;
     containerElement.appendChild(article);
