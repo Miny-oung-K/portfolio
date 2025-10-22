@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minyoung Kim: Personal site and portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Navigation will be automatically added by global.js -->
   <script src="global.js" type="module"></script>
 
-  <h1>Minyoung Kim</h1>
-  <p>
-    Hello, my name is Minyoung and I am a third-year student at the University of California, San Diego.
-    I am majoring in Data Science and minoring in Marketing. I am an international student from South Korea
-    and am involved in many different student orgs on campus. I am actively seeking more lab positions
-    and a summer internship in the United States. Please feel free to connect with me on LinkedIn!
-  </p>
+  <header>
+    <h1>Minyoung Kim</h1>
+    <p>
+      Hello, my name is Minyoung and I am a third-year student at the University of California, San Diego.
+      I am majoring in Data Science and minoring in Marketing. I am an international student from South Korea
+      and am involved in many different student orgs on campus. I am actively seeking more lab positions
+      and a summer internship in the United States. Please feel free to connect with me on LinkedIn!
+    </p>
+    <img src="images/wicphoto.jpeg" alt="My WIC headshot in front of Warren Bear" width="600" />
+  </header>
 
-  <img src="images/wicphoto.jpeg" alt="My WIC headshot in front of Warren Bear" width="600">
+  <section aria-labelledby="latest-projects-title">
+    <h2 id="latest-projects-title" class="projects-title">Latest Projects</h2>
+    <div class="projects"></div>
+  </section>
+
+  <script src="index.js" type="module" defer></script>
 </body>
 </html>
