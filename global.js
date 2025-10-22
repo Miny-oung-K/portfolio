@@ -86,3 +86,40 @@ select.addEventListener("input", (e) => {
   localStorage.colorScheme = value;
   console.log(`Color scheme changed to: ${value}`);
 });
+
+export async function fetchJSON(url) {
+  try {
+    const response = await fetch(url);
+    console.log(response); // check it in the dev console
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error('Error fetching or parsing JSON data:', error);
+    return [];
+  }
+}
+
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  containerElement.innerHTML = '';
+
+  if (!projects || projects.length === 0) {
+    containerElement.innerHTML = '<p>No projects found.</p>';
+    return;
+  }
+
+  for (const project of projects) {
+    const article = document.createElement('article');
+    article.innerHTML = `
+      <${headingLevel}>${project.title || 'Untitled Project'}</${headingLevel}>
+      <img src="${project.image || '../images/placeholder.png'}" alt="${project.title || 'Project image'}">
+      <p>${project.description || 'No description available.'}</p>
+    `;
+    containerElement.appendChild(article);
+  }
+}
