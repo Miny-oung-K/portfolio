@@ -18,6 +18,7 @@ async function loadProjects() {
 
     const titleEl = document.querySelector('.projects-title');
     if (titleEl) titleEl.textContent = `Projects (${projects?.length || 0})`;
+
   } catch (err) {
     console.error('Failed to load projects:', err);
     const container = document.querySelector('.projects');
