@@ -127,3 +127,21 @@ button:hover {
   padding: .4rem .6rem;
 }
 .color-scheme select { margin-left: .25rem; }
+
+.gh-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .5rem 1rem;
+  margin-block: 1rem;
+}
+
+.gh-stats dt { 
+  grid-row: 1;
+  font-weight: 600;
+}
+
+.gh-stats dd { 
+  grid-row: 2; 
+  margin: 0;
+}
+
