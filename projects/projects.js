@@ -1,78 +1,93 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 import { fetchJSON, renderProjects } from '../global.js';
 
+let allProjects = [];
+let query = '';
+
 async function loadProjects() {
-  let projects = [];
   try {
     const dataURL = new URL('../lib/projects.json', import.meta.url).toString();
-    projects = await fetchJSON(dataURL);
+    allProjects = await fetchJSON(dataURL);
 
-    const container = document.querySelector('.projects');
-    if (container) renderProjects(projects, container, 'h2', dataURL);
+    // Initial render
+    renderProjects(allProjects, document.querySelector('.projects'), 'h2', dataURL);
+    updateTitle(allProjects);
+    renderPieChart(allProjects);
 
-    const titleEl = document.querySelector('.projects-title');
-    if (titleEl) titleEl.textContent = `${projects?.length || 0} Projects`;
+    // Activate search
+    setupSearch();
   } catch (err) {
     console.error('Failed to load projects:', err);
-    const container = document.querySelector('.projects');
-    if (container) container.innerHTML = '<p>Could not load projects.</p>';
+    document.querySelector('.projects').innerHTML = '<p>Could not load projects.</p>';
   }
-
-  drawPieFromProjects(projects);
 }
 
-function drawPieFromProjects(projects) {
+function updateTitle(projects) {
+  const titleEl = document.querySelector('.projects-title');
+  if (titleEl) titleEl.textContent = `${projects.length} Projects`;
+}
+
+/* === PIE CHART FUNCTION === */
+function renderPieChart(projects) {
   const svg = d3.select('#projects-pie-plot');
-  if (svg.empty()) return;
-
+  const legend = d3.select('.legend');
   svg.selectAll('*').remove();
+  legend.selectAll('*').remove();
 
+  if (!projects.length) return;
+
+  // Group projects by year
   const rolled = d3.rollups(
     projects,
     v => v.length,
-    d => (d?.year ?? 'Unknown') + ''
+    d => d.year ?? 'Unknown'
   );
-
-  rolled.sort((a, b) => {
-    const aIsNum = /^\d+$/.test(a[0]);
-    const bIsNum = /^\d+$/.test(b[0]);
-    if (aIsNum && bIsNum) return Number(b[0]) - Number(a[0]);
-    if (aIsNum) return -1;
-    if (bIsNum) return 1;
-    return a[0].localeCompare(b[0]);
-  });
 
   const data = rolled.map(([year, count]) => ({ label: year, value: count }));
 
-  const radius = 50;
-  const arc = d3.arc().innerRadius(0).outerRadius(radius);
-  const pie = d3.pie().value(d => d.value);
-  const arcs = pie(data);
-
+  const arcGen = d3.arc().innerRadius(0).outerRadius(50);
+  const pieGen = d3.pie().value(d => d.value);
   const color = d3.scaleOrdinal(d3.schemeTableau10);
+  const arcs = pieGen(data);
 
   svg
     .selectAll('path')
     .data(arcs)
     .join('path')
-    .attr('d', arc)
-    .attr('fill', (_d, i) => color(i))
+    .attr('d', arcGen)
+    .attr('fill', (_, i) => color(i))
     .attr('stroke', 'white')
     .attr('stroke-width', 0.5);
 
-  const legend = d3.select('.legend');
-  legend.selectAll('*').remove();
-
+  // Build legend
   data.forEach((d, i) => {
     legend
       .append('li')
       .attr('style', `--color:${color(i)}`)
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
   });
-
-  console.log('Pie by year rendered:', data);
 }
 
+/* === SEARCH FUNCTIONALITY === */
+function setupSearch() {
+  const input = document.querySelector('.searchBar');
+  const container = document.querySelector('.projects');
+
+  input.addEventListener('input', e => {
+    query = e.target.value.toLowerCase();
+
+    const filtered = allProjects.filter(proj => {
+      const values = Object.values(proj).join('\n').toLowerCase();
+      return values.includes(query);
+    });
+
+    renderProjects(filtered, container, 'h2');
+    updateTitle(filtered);
+    renderPieChart(filtered);
+  });
+}
+
+/* === INITIALIZE === */
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', loadProjects);
 } else {

@@ -203,3 +203,14 @@ button:hover {
   background-color: var(--color); /* set from inline style */
   border-radius: 0.2em;
 }
+
+.searchBar {
+  display: block;
+  width: 100%;
+  max-width: 30em;
+  margin: 1em auto 2em;
+  padding: 0.6em 1em;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5em;
+  font: inherit;
+}
