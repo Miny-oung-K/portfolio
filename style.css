@@ -159,3 +159,11 @@ button:hover {
   margin-top: .25rem;
 }
 
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
+  display: block;
+  margin-inline: auto;
+}
+

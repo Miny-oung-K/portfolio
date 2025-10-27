@@ -8,7 +8,6 @@ async function loadProjects() {
     const container = document.querySelector('.projects');
     if (!container) return;
 
-    // Pass dataURL so images resolve correctly
     renderProjects(projects, container, 'h2', dataURL);
 
     const titleEl = document.querySelector('.projects-title');
@@ -18,6 +17,38 @@ async function loadProjects() {
     const container = document.querySelector('.projects');
     if (container) container.innerHTML = '<p>Could not load projects.</p>';
   }
+
+  drawPie();
+
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', loadProjects);
+} else {
+  loadProjects();
+}
+
+function drawPie() {
+  const svg = d3.select('#projects-pie-plot');
+  if (svg.empty()) return;
+
+  const data = [1, 2, 3, 4, 5, 5];
+
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  const sliceGenerator = d3.pie();
+
+  const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+  const arcData = sliceGenerator(data);
+
+  svg
+    .selectAll('path') 
+    .data(arcData)
+    .join('path')
+    .attr('d', arcGenerator)
+    .attr('fill', (_d, i) => colors(i))
+    .attr('stroke', 'white')
+    .attr('stroke-width', 0.5);
 }
 
 if (document.readyState === 'loading') {
