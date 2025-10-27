@@ -185,8 +185,8 @@ button:hover {
   padding: 1em;
   border-radius: 0.5em;
   background: color-mix(in oklch, canvas, canvastext 5%);
-  flex: 1;
-  max-width: 25em;
+  flex: 1;                  /* take remaining width */
+  max-width: 28em;
 }
 
 .legend li {
@@ -200,14 +200,6 @@ button:hover {
   display: inline-block;
   width: 1em;
   height: 1em;
-  background-color: var(--color);
+  background-color: var(--color); /* set from inline style */
   border-radius: 0.2em;
 }
-
-/* Optional: emphasize numbers */
-.legend em {
-  color: oklch(60% 3% 200);
-  font-style: normal;
-  opacity: 0.8;
-}
-
