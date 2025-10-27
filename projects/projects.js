@@ -1,3 +1,4 @@
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 import { fetchJSON, renderProjects } from '../global.js';
 
 async function loadProjects() {
@@ -19,36 +20,35 @@ async function loadProjects() {
   }
 
   drawPie();
-
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadProjects);
-} else {
-  loadProjects();
 }
 
 function drawPie() {
   const svg = d3.select('#projects-pie-plot');
-  if (svg.empty()) return;
+  if (svg.empty()) {
+    console.error('SVG with id="projects-pie-plot" not found.');
+    return;
+  }
+
+  svg.selectAll('*').remove();
 
   const data = [1, 2, 3, 4, 5, 5];
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie();
-
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
   const arcData = sliceGenerator(data);
 
   svg
-    .selectAll('path') 
+    .selectAll('path')
     .data(arcData)
     .join('path')
     .attr('d', arcGenerator)
     .attr('fill', (_d, i) => colors(i))
     .attr('stroke', 'white')
     .attr('stroke-width', 0.5);
+
+  console.log('Pie chart drawn with', data.length, 'slices');
 }
 
 if (document.readyState === 'loading') {
