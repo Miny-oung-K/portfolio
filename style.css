@@ -167,3 +167,47 @@ button:hover {
   margin-inline: auto;
 }
 
+.pie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-block: 2em;
+}
+
+/* Legend styling */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+  padding: 1em;
+  border-radius: 0.5em;
+  background: color-mix(in oklch, canvas, canvastext 5%);
+  flex: 1;
+  max-width: 25em;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  list-style: none;
+}
+
+.legend li .swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: var(--color);
+  border-radius: 0.2em;
+}
+
+/* Optional: emphasize numbers */
+.legend em {
+  color: oklch(60% 3% 200);
+  font-style: normal;
+  opacity: 0.8;
+}
+

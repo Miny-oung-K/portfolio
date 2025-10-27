@@ -24,31 +24,47 @@ async function loadProjects() {
 
 function drawPie() {
   const svg = d3.select('#projects-pie-plot');
-  if (svg.empty()) {
-    console.error('SVG with id="projects-pie-plot" not found.');
-    return;
-  }
+  if (svg.empty()) return;
 
   svg.selectAll('*').remove();
 
-  const data = [1, 2, 3, 4, 5, 5];
+  // Example data with labels
+  const data = [
+    { value: 1, label: 'Apples' },
+    { value: 2, label: 'Oranges' },
+    { value: 3, label: 'Mangos' },
+    { value: 4, label: 'Pears' },
+    { value: 5, label: 'Limes' },
+    { value: 5, label: 'Cherries' },
+  ];
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-  const sliceGenerator = d3.pie();
+  const sliceGenerator = d3.pie().value((d) => d.value);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  const arcData = sliceGenerator(data);
+  const arcs = sliceGenerator(data);
 
   svg
     .selectAll('path')
-    .data(arcData)
+    .data(arcs)
     .join('path')
     .attr('d', arcGenerator)
     .attr('fill', (_d, i) => colors(i))
     .attr('stroke', 'white')
     .attr('stroke-width', 0.5);
 
-  console.log('Pie chart drawn with', data.length, 'slices');
+  // === Build Legend ===
+  const legend = d3.select('.legend');
+  legend.selectAll('*').remove(); // clear old entries
+
+  data.forEach((d, i) => {
+    legend
+      .append('li')
+      .attr('style', `--color:${colors(i)}`)
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  });
+
+  console.log('✅ Pie chart + legend rendered');
 }
 
 if (document.readyState === 'loading') {
