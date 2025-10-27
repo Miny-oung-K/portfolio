@@ -206,11 +206,25 @@ button:hover {
 
 .searchBar {
   display: block;
+
   width: 100%;
-  max-width: 30em;
-  margin: 1em auto 2em;
-  padding: 0.6em 1em;
-  border: 1px solid var(--border-color);
-  border-radius: 0.5em;
+  box-sizing: border-box;
+
+  margin: 1rem 0 2rem;
+  padding: 0.75em 1em;
+
+  border: 2px solid var(--border-color);
+  border-radius: 0.6rem;
+  background: color-mix(in oklch, canvas, canvastext 5%);
+
+  outline: 2px solid color-mix(in oklch, var(--color-accent), canvas 70%);
+  outline-offset: 2px;
+
   font: inherit;
+}
+
+.searchBar:focus,
+.searchBar:focus-visible {
+  border-color: var(--color-accent);
+  outline-color: var(--color-accent);
 }
