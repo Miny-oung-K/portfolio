@@ -114,20 +114,29 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2', 
   }
 
   for (const project of projects) {
+    // Resolve image URL robustly
     let imgSrc = project.image || '../images/placeholder.png';
     if (!/^https?:\/\//i.test(imgSrc)) {
       try {
         imgSrc = new URL(imgSrc, baseUrl).toString();
       } catch {
+        /* leave as-is */
       }
     }
 
+    // Build article
     const article = document.createElement('article');
+    const yearLine = project.year ? `<p class="project-year">c. ${project.year}</p>` : '';
+
     article.innerHTML = `
       <${headingLevel}>${project.title || 'Untitled Project'}</${headingLevel}>
       <img src="${imgSrc}" alt="${project.title || 'Project image'}">
-      <p>${project.description || 'No description available.'}</p>
+      <div class="project-text">
+        <p>${project.description || 'No description available.'}</p>
+        ${yearLine}
+      </div>
     `;
+
     containerElement.appendChild(article);
   }
 }

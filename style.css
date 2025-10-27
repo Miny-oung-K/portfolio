@@ -145,3 +145,17 @@ button:hover {
   margin: 0;
 }
 
+.project-text {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.project-year {
+  color: oklch(60% 3% 200);
+  font-style: italic;
+  font-size: 0.95em;
+  opacity: .9;
+  margin-top: .25rem;
+}
+
