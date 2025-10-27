@@ -185,7 +185,7 @@ button:hover {
   padding: 1em;
   border-radius: 0.5em;
   background: color-mix(in oklch, canvas, canvastext 5%);
-  flex: 1;                  /* take remaining width */
+  flex: 1;
   max-width: 28em;
 }
 
@@ -200,7 +200,7 @@ button:hover {
   display: inline-block;
   width: 1em;
   height: 1em;
-  background-color: var(--color); /* set from inline style */
+  background-color: var(--color); 
   border-radius: 0.2em;
 }
 
@@ -227,4 +227,58 @@ button:hover {
 .searchBar:focus-visible {
   border-color: var(--color-accent);
   outline-color: var(--color-accent);
+}
+
+#projects-pie-plot path {
+  cursor: pointer;
+  transition: 300ms;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+.pie-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  gap: .5rem 1rem;
+  margin: 0 0 1.5rem;
+  padding: .75rem;
+  border: 1px solid var(--border-color);
+  border-radius: .5rem;
+  background: color-mix(in oklch, canvas, canvastext 5%);
+}
+
+.pie-legend li {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  list-style: none;
+  padding: .35rem .5rem;
+  border-radius: .4rem;
+  user-select: none;
+}
+
+.pie-legend li .swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: var(--color);
+  border: 1px solid color-mix(in oklch, var(--color), canvastext 35%);
+}
+
+
+.selected {
+  --color: oklch(60% 45% 0) !important;
+
+  &:is(path) {
+    fill: var(--color);
+  }
+}
+
+.pie-legend li.selected {
+  outline: 2px solid var(--color);
+  outline-offset: 2px;
 }

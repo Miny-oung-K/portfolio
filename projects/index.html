@@ -7,20 +7,20 @@
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <script src="../global.js" type="module"></script>
-
   <h1 class="projects-title">Projects</h1>
 
+  <!-- Pie + legend wrapper (side-by-side on wide screens via CSS grid/flex if desired) -->
   <div class="pie-container">
     <svg id="projects-pie-plot" viewBox="-50 -50 100 100" aria-label="Projects pie chart"></svg>
-    <ul class="legend"></ul>
+    <ul class="pie-legend" aria-label="Projects per year legend"></ul>
   </div>
 
+  <!-- Search bar (already added in previous step) -->
   <input
-  class="searchBar"
-  type="search"
-  aria-label="Search projects"
-  placeholder="🔍 Search projects…"
+    class="searchBar"
+    type="search"
+    aria-label="Search projects"
+    placeholder="🔍 Search projects…"
   />
 
   <div class="projects"></div>
