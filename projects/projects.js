@@ -59,14 +59,18 @@ function renderPie() {
 
   const slice = d3.pie().value(d => d.value)(pieData);
   const arc   = d3.arc().innerRadius(0).outerRadius(50);
-  const colors = d3.scaleOrdinal(d3.schemeTableau10);
+  
+  const pinkScale = d3
+    .scaleLinear()
+    .domain([0, pieData.length - 1]) 
+    .range(["#ffd6e8", "#b30059"]);
 
   svg
     .selectAll('path')
     .data(slice)
     .join('path')
     .attr('d', arc)
-    .attr('fill', (_d, i) => colors(i))
+    .attr('fill', (_d, i) => pinkScale(i))
     .attr('stroke', 'white')
     .attr('stroke-width', 0.5)
     .style('cursor', 'pointer')
@@ -75,7 +79,7 @@ function renderPie() {
     )
     .on('click', (_evt, d) => {
       const year = d.data.label;
-      selectedYear = selectedYear === year ? null : year; // toggle
+      selectedYear = selectedYear === year ? null : year;
       renderAll();
     });
 
@@ -83,7 +87,7 @@ function renderPie() {
     .selectAll('li')
     .data(pieData)
     .join('li')
-    .attr('style', (_d, i) => `--color:${colors(i)}`)
+    .attr('style', (_d, i) => `--color:${pinkScale(i)}`)
     .attr('class', d =>
       selectedYear && d.label === String(selectedYear) ? 'selected' : null
     )
@@ -91,7 +95,7 @@ function renderPie() {
     .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
     .on('click', (_evt, d) => {
       const year = d.label;
-      selectedYear = selectedYear === year ? null : year; // toggle
+      selectedYear = selectedYear === year ? null : year;
       renderAll();
     });
 }
