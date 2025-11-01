@@ -9,7 +9,7 @@ const sel = {
   listContainer: () => document.querySelector('.projects'),
   title:         () => document.querySelector('.projects-title'),
   svg:           () => d3.select('#projects-pie-plot'),
-  legend:        () => d3.select('.legend'),
+  legend:        () => d3.select('.pie-legend'),   // <-- FIXED: match your HTML/CSS
   search:        () => document.querySelector('.searchBar'),
 };
 
@@ -46,6 +46,7 @@ function renderPie() {
   const legend = sel.legend();
   if (svg.empty()) return;
 
+  // clear previous drawing
   svg.selectAll('*').remove();
   legend.selectAll('*').remove();
 
@@ -54,28 +55,33 @@ function renderPie() {
 
   const rolled = d3
     .rollups(visible, v => v.length, d => String(d.year))
-    .sort((a, b) => d3.ascending(a[0], b[0]));
+    .sort((a, b) => d3.ascending(+a[0], +b[0]));
+
   const pieData = rolled.map(([year, count]) => ({ label: year, value: count }));
 
-  const slice = d3.pie().value(d => d.value)(pieData);
-  const arc   = d3.arc().innerRadius(0).outerRadius(50);
-  
-  const pinkScale = d3
-    .scaleLinear()
-    .domain([0, pieData.length - 1]) 
-    .range(["#ffd6e8", "#b30059"]);
+  const allYears = Array.from(new Set(allProjects.map(p => +p.year)));
+  const minYear = d3.min(allYears);
+  const maxYear = d3.max(allYears);
+  const pink = d3.scaleSequential()
+    .domain([minYear, maxYear])
+    .interpolator(d3.interpolateRgb('#ffd6e8', '#b30059'));
+
+  const sliceGenerator = d3.pie().value(d => d.value);
+  const arcs = sliceGenerator(pieData);
+  const arc = d3.arc().innerRadius(0).outerRadius(50);
+  const labelArc = d3.arc().innerRadius(28).outerRadius(50);
 
   svg
     .selectAll('path')
-    .data(slice)
+    .data(arcs, d => d.data.label)
     .join('path')
     .attr('d', arc)
-    .attr('fill', (_d, i) => pinkScale(i))
+    .attr('fill', d => pink(+d.data.label))
     .attr('stroke', 'white')
     .attr('stroke-width', 0.5)
     .style('cursor', 'pointer')
-    .attr('class', (d, i) =>
-      selectedYear && pieData[i].label === String(selectedYear) ? 'selected' : null
+    .attr('class', d =>
+      selectedYear && d.data.label === String(selectedYear) ? 'selected' : null
     )
     .on('click', (_evt, d) => {
       const year = d.data.label;
@@ -83,11 +89,25 @@ function renderPie() {
       renderAll();
     });
 
+
+  svg
+    .selectAll('text.slice-label')
+    .data(arcs, d => d.data.label)
+    .join('text')
+    .attr('class', 'slice-label')
+    .attr('transform', d => `translate(${labelArc.centroid(d)})`)
+    .attr('text-anchor', 'middle')
+    .attr('dy', '0.32em')
+    .style('font-size', '0.7rem')
+    .style('fill', 'currentColor')
+    .text(d => d.data.value);
+
+
   legend
     .selectAll('li')
-    .data(pieData)
+    .data(pieData, d => d.label)
     .join('li')
-    .attr('style', (_d, i) => `--color:${pinkScale(i)}`)
+    .attr('style', d => `--color:${pink(+d.label)}`)
     .attr('class', d =>
       selectedYear && d.label === String(selectedYear) ? 'selected' : null
     )
