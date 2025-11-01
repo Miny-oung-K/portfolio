@@ -159,73 +159,13 @@ button:hover {
   margin-top: .25rem;
 }
 
+/* Pie chart */
 #projects-pie-plot {
   max-width: 20em;
   margin-block: 2em;
   overflow: visible;
   display: block;
   margin-inline: auto;
-}
-
-.pie-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-block: 2em;
-}
-
-.legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-  gap: 1rem;
-  border: 1px solid var(--border-color);
-  padding: 1em;
-  border-radius: 0.5em;
-  background: color-mix(in oklch, canvas, canvastext 5%);
-  flex: 1;
-  max-width: 28em;
-}
-
-.legend li {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  list-style: none;
-}
-
-.legend li .swatch {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  background-color: var(--color); 
-  border-radius: 0.2em;
-}
-
-.searchBar {
-  display: block;
-
-  width: 100%;
-  box-sizing: border-box;
-
-  margin: 1rem 0 2rem;
-  padding: 0.75em 1em;
-
-  border: 2px solid var(--border-color);
-  border-radius: 0.6rem;
-  background: color-mix(in oklch, canvas, canvastext 5%);
-
-  outline: 2px solid color-mix(in oklch, var(--color-accent), canvas 70%);
-  outline-offset: 2px;
-
-  font: inherit;
-}
-
-.searchBar:focus,
-.searchBar:focus-visible {
-  border-color: var(--color-accent);
-  outline-color: var(--color-accent);
 }
 
 #projects-pie-plot path {
@@ -237,6 +177,17 @@ button:hover {
   opacity: 0.5;
 }
 
+/* Pie + Legend container */
+.pie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-block: 2em;
+}
+
+/* Legend (this is the only legend class used) */
 .pie-legend {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
@@ -246,6 +197,8 @@ button:hover {
   border: 1px solid var(--border-color);
   border-radius: .5rem;
   background: color-mix(in oklch, canvas, canvastext 5%);
+  flex: 1;
+  max-width: 28em;
 }
 
 .pie-legend li {
@@ -268,16 +221,34 @@ button:hover {
   border: 1px solid color-mix(in oklch, var(--color), canvastext 35%);
 }
 
-
+/* Selection styles (plain CSS, no Sass) */
 .selected {
-  --color: oklch(60% 45% 0) !important;
+  --color: oklch(60% 45% 0) !important; /* highlight color */
+}
 
-  &:is(path) {
-    fill: var(--color);
-  }
+#projects-pie-plot path.selected {
+  fill: var(--color);
 }
 
 .pie-legend li.selected {
   outline: 2px solid var(--color);
   outline-offset: 2px;
+}
+
+/* Search bar (neutral outline, full-width responsive) */
+.searchBar {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75em 1em;
+  border: 1px solid var(--border-color);   /* neutral outline */
+  border-radius: 0.5rem;
+  background-color: color-mix(in oklch, canvas, canvastext 6%);
+  outline: none;
+  font-size: 1rem;
+}
+
+.searchBar:focus {
+  border-color: var(--border-color);
+  box-shadow: 0 0 0 0 transparent; /* remove colored ring */
+  outline: none;
 }
