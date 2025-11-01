@@ -90,19 +90,6 @@ function renderPie() {
     });
 
 
-  svg
-    .selectAll('text.slice-label')
-    .data(arcs, d => d.data.label)
-    .join('text')
-    .attr('class', 'slice-label')
-    .attr('transform', d => `translate(${labelArc.centroid(d)})`)
-    .attr('text-anchor', 'middle')
-    .attr('dy', '0.32em')
-    .style('font-size', '0.7rem')
-    .style('fill', 'currentColor')
-    .text(d => d.data.value);
-
-
   legend
     .selectAll('li')
     .data(pieData, d => d.label)
