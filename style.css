@@ -252,45 +252,54 @@ button:hover {
 }
 
 .summary-card {
-  border: 0;
-  background: transparent;
-  margin-block: 0 1.25rem;
-}
 
-.summary-title {
-  margin: 0 0 .75rem 0;
-  padding: 0;
-  font-size: clamp(1.9rem, 1.2rem + 2.2vw, 2.6rem);
-  font-weight: 800;
+  margin-block: 0.25rem 2rem;
 }
 
 .summary-grid {
-  padding: 0;
-  border: 0;
-  gap: 2.5rem 6rem;
-  grid-template-columns: repeat(6, 1fr); 
+  display: grid;
+  grid-template-columns: repeat(6, minmax(9.5rem, 1fr));
+  gap: 3rem;
   align-items: end;
+  margin: 0;
+  padding: 0;
 }
 
-.summary-grid > div { display: grid; gap: .35rem; }
+.summary-grid > div {
+  display: grid;
+  gap: .4rem;
+}
 
 .summary-grid dt {
-  color: oklch(63% 4% 240);
   text-transform: uppercase;
-  letter-spacing: .05em;
-  font-weight: 650;
-  font-size: .95rem;
+  letter-spacing: 0.06em;
+  color: oklch(55% 0.06 250);
+  font-weight: 600;
+  font-size: clamp(.9rem, 1.6vw, 1.05rem);
+  margin: 0;
 }
 
 .summary-grid dd {
   margin: 0;
-  line-height: 1.05;
-  font-weight: 800;
-  font-size: clamp(2.2rem, 1.2rem + 3.2vw, 3.4rem); 
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.2;
 }
 
-.summary-caption { display: none; } 
+@media (max-width: 1000px) {
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 2rem;
+  }
+}
 
-@media (max-width: 1000px) { .summary-grid { gap: 2rem 3rem; } }
-@media (max-width: 900px)  { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 560px)  { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+
+#chart svg { max-width: 100%; height: auto; }
+.gridlines line {
+  stroke: color-mix(in oklch, canvastext, canvas 85%);
+}
+
+.gridlines path,
+.gridlines text {
+  display: none;
+}
