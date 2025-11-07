@@ -70,6 +70,46 @@ function renderSummary(stats) {
   renderSummary(stats);
 })();
 
+function renderTooltipContent(commit) {
+  if (!commit || Object.keys(commit).length === 0) return;
+
+  const link = document.getElementById('commit-link');
+  const date = document.getElementById('commit-date');
+  const time = document.getElementById('commit-time');
+  const author = document.getElementById('commit-author');
+  const lines = document.getElementById('commit-lines');
+
+  link.href = commit.url || '#';
+  link.textContent = commit.id || '(unknown)';
+
+  // Date & time display
+  if (commit.datetime instanceof Date && !isNaN(commit.datetime)) {
+    date.textContent = commit.datetime.toLocaleString('en', { dateStyle: 'full' });
+    time.textContent = commit.datetime.toLocaleString('en', {
+      timeStyle: 'short'
+    });
+  } else {
+    date.textContent = '';
+    time.textContent = '';
+  }
+
+  author.textContent = commit.author ?? '';
+  lines.textContent = commit.totalLines ?? '';
+}
+
+function updateTooltipVisibility(isVisible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.hidden = !isVisible;
+}
+
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById('commit-tooltip');
+  const OFFSET_X = 14;
+  const OFFSET_Y = 14;
+  tooltip.style.left = `${event.clientX + OFFSET_X}px`;
+  tooltip.style.top  = `${event.clientY + OFFSET_Y}px`;
+}
+
 function renderScatterPlot(data, commits) {
   const width = 1000;
   const height = 600;
@@ -132,7 +172,18 @@ function renderScatterPlot(data, commits) {
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', 4)
     .attr('fill', 'steelblue')
-    .attr('opacity', 0.9);
+    .attr('opacity', 0.9)
+    .on('mouseenter', (event, commit) => {
+      renderTooltipContent(commit);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
+    })
+    .on('mousemove', (event) => {
+      updateTooltipPosition(event);
+    })
+    .on('mouseleave', () => {
+      updateTooltipVisibility(false);
+    });
 }
 
 const data = await loadData();
