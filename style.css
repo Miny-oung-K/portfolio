@@ -177,6 +177,7 @@ button:hover {
   opacity: 0.5;
 }
 
+/* Pie + Legend container */
 .pie-container {
   display: flex;
   justify-content: center;
@@ -186,6 +187,7 @@ button:hover {
   margin-block: 2em;
 }
 
+/* Legend (this is the only legend class used) */
 .pie-legend {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
@@ -220,7 +222,7 @@ button:hover {
 }
 
 .selected {
-  --color: oklch(60% 45% 0) !important; 
+  --color: oklch(60% 45% 0) !important;
 }
 
 #projects-pie-plot path.selected {
@@ -250,51 +252,45 @@ button:hover {
 }
 
 .summary-card {
-  border: 1px solid oklch(50% 10% 200 / 30%);
-  border-radius: .6rem;
-  background: color-mix(in oklch, canvas, canvastext 4%);
-  margin-block: 1.5rem;
-  overflow: hidden;
+  border: 0;
+  background: transparent;
+  margin-block: 0 1.25rem;
 }
 
 .summary-title {
-  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+  margin: 0 0 .75rem 0;
+  padding: 0;
+  font-size: clamp(1.9rem, 1.2rem + 2.2vw, 2.6rem);
   font-weight: 800;
-  padding: 1rem 1.25rem .5rem;
 }
 
 .summary-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(8rem, 1fr));
-  gap: 1rem 2rem;
-  padding: .5rem 1.25rem 1.25rem;
+  padding: 0;
+  border: 0;
+  gap: 2.5rem 6rem;
+  grid-template-columns: repeat(6, 1fr); 
+  align-items: end;
 }
 
-.summary-grid > div { display: grid; gap: .25rem; }
+.summary-grid > div { display: grid; gap: .35rem; }
 
 .summary-grid dt {
-  color: oklch(55% 3% 240);
-  letter-spacing: .06em;
+  color: oklch(63% 4% 240);
+  text-transform: uppercase;
+  letter-spacing: .05em;
   font-weight: 650;
-  font-size: .85rem;
+  font-size: .95rem;
 }
 
 .summary-grid dd {
   margin: 0;
-  font-size: clamp(1.6rem, 1.2rem + 2vw, 3rem);
-  line-height: 1.1;
-  font-weight: 700;
+  line-height: 1.05;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 1.2rem + 3.2vw, 3.4rem); 
 }
 
-.summary-caption {
-  background: color-mix(in oklch, canvas, canvastext 7%);
-  border-top: 1px solid oklch(50% 10% 200 / 30%);
-  padding: .8rem 1.25rem;
-}
+.summary-caption { display: none; } 
 
-@media (max-width: 900px) {
-  .summary-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 560px) {
-  .summary-grid { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 1000px) { .summary-grid { gap: 2rem 3rem; } }
+@media (max-width: 900px)  { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px)  { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
