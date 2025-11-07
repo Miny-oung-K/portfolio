@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meta</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <script src="../global.js" type="module"></script>
-
   <h1>Meta</h1>
   <p>This page includes stats about the code of this website.</p>
 
-  <div id="stats"></div>
+  <figure class="summary-card">
+    <figcaption class="summary-title">Summary</figcaption>
+
+    <dl class="summary-grid" id="summary">
+      <div><dt>COMMITS</dt><dd id="sum-commits">–</dd></div>
+      <div><dt>FILES</dt><dd id="sum-files">–</dd></div>
+      <div><dt>TOTAL LOC</dt><dd id="sum-loc">–</dd></div>
+      <div><dt>MAX DEPTH</dt><dd id="sum-depth">–</dd></div>
+      <div><dt>LONGEST LINE</dt><dd id="sum-longest">–</dd></div>
+      <div><dt>MAX LINES</dt><dd id="sum-maxlines">–</dd></div>
+    </dl>
+
+    <footer class="summary-caption">
+      <strong>Figure 1:</strong> Example of a summary stats section
+    </footer>
+  </figure>
 
   <script type="module" src="./main.js"></script>
 </body>
