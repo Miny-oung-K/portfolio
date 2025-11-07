@@ -352,3 +352,25 @@ dl.info[hidden]:not(:hover, :focus-within) {
 .dots circle:hover {
   transform: scale(1.5);
 }
+
+@keyframes marching-ants {
+  to { stroke-dashoffset: -8; }
+}
+.selection {
+  fill-opacity: 0.1;
+  stroke: black;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 5 3;
+  animation: marching-ants 2s linear infinite;
+}
+
+circle.selected {
+  fill: #ff6b6b;
+}
+
+circle {
+  transition: 200ms;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+circle:hover { transform: scale(1.5); }
