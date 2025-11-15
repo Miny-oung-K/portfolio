@@ -374,3 +374,14 @@ circle {
   transform-box: fill-box;
 }
 circle:hover { transform: scale(1.5); }
+
+.projects a {
+  color: #0066cc;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s;
+}
+
+.projects a:hover {
+  border-bottom-color: #0066cc;
+}

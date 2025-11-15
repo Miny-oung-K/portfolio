@@ -1,5 +1,12 @@
 [
   {
+    "title": "Bike Watching in Boston/Cambridge",
+    "year": "2025",
+    "image": "../images/bikewatching.png",
+    "description": "Creaeted an immersive, interactive map visualization of bike traffic in the Boston area during different times of the day.",
+    "url": "https://miny-oung-k.github.io/bikewatching/"
+  },
+  {
     "title": "Elephant Monitoring Project, Engineers for Exploration",
     "year": "2025",
     "image": "../images/elephantfamily.png",
@@ -9,7 +16,8 @@
     "title": "Dessert or Not? A Recipe for Classification",
     "year": "2024",
     "image": "../images/dessert.png",
-    "description": "This was part of my DSC80 final project. Along with Tanisha Kumar, my groupmate, we analyzed a holiday recipes dataset to classify foods as “dessert” or “non-dessert” based on nutritional content. Tuned a Random Forest classifier with GridSearchCV, improving macro F1 score from 0.41 to 0.60 and raising dessert recall from 0.01 to 0.52."
+    "description": "This was part of my DSC80 final project. Along with Tanisha Kumar, my groupmate, we analyzed a holiday recipes dataset to classify foods as “dessert” or “non-dessert” based on nutritional content. Tuned a Random Forest classifier with GridSearchCV, improving macro F1 score from 0.41 to 0.60 and raising dessert recall from 0.01 to 0.52.",
+    "url": "https://tanishakr07.github.io/HolidayRecipesClassifier/"
   },
   {
     "title": "UCSD College Ranker",
@@ -56,12 +64,6 @@
   {
     "title": "Music Recommendation Blog",
     "year": "2021",
-    "image": "../images/musicrec.png",
-    "description": "Along with my four other teammates, we developed an HTML website with a chat-bot that would recommend five random songs from Spotify daily."
-  },
-  {
-    "title": "Music Recommendation Website",
-    "year": "2020",
     "image": "../images/musicrec.png",
     "description": "Along with my four other teammates, we developed an HTML website with a chat-bot that would recommend five random songs from Spotify daily."
   },

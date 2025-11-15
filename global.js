@@ -115,7 +115,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2', 
   }
 
   for (const project of projects) {
-    // Resolve image URL robustly
+    // Resolve image URL
     let imgSrc = project.image || '../images/placeholder.png';
     if (!/^https?:\/\//i.test(imgSrc)) {
       try {
@@ -125,12 +125,17 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2', 
       }
     }
 
-    // Build article
+    // Build project card
     const article = document.createElement('article');
     const yearLine = project.year ? `<p class="project-year">c. ${project.year}</p>` : '';
 
+    // Add project link only if url exists
+    const titleHTML = project.url
+      ? `<${headingLevel}><a href="${project.url}" target="_blank" rel="noopener noreferrer">${project.title || 'Untitled Project'}</a></${headingLevel}>`
+      : `<${headingLevel}>${project.title || 'Untitled Project'}</${headingLevel}>`;
+
     article.innerHTML = `
-      <${headingLevel}>${project.title || 'Untitled Project'}</${headingLevel}>
+      ${titleHTML}
       <img src="${imgSrc}" alt="${project.title || 'Project image'}">
       <div class="project-text">
         <p>${project.description || 'No description available.'}</p>
