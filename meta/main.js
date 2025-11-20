@@ -73,11 +73,7 @@ function renderSummary(stats) {
 function renderTooltipContent(commit) {
   if (!commit || Object.keys(commit).length === 0) return;
 
-  const link = document.getElementById('commit-link');
-  const date = document.getElementById('commit-date');
   const time = document.getElementById('commit-time');
-  const author = document.getElementById('commit-author');
-  const lines = document.getElementById('commit-lines');
 
   link.href = commit.url || '#';
   link.textContent = commit.id || '(unknown)';
@@ -249,3 +245,46 @@ export function renderScatterPlot(data, commits) {
 const data = await loadData();
 const commits = processCommits(data);
 renderScatterPlot(data, commits);
+
+// ============ Step 1.1: Slider + time display ============
+
+// start at 100% (show all time)
+let commitProgress = 100;
+
+// map 0–100 -> actual datetime range from commits
+let timeScale = d3
+  .scaleTime()
+  .domain([
+    d3.min(commits, d => d.datetime),
+    d3.max(commits, d => d.datetime),
+  ])
+  .range([0, 100]);
+
+let commitMaxTime = timeScale.invert(commitProgress);
+
+function onTimeSliderChange() {
+  const slider = document.querySelector('#commit-progress');
+  const timeEl = document.querySelector('#commit-time');
+  if (!slider || !timeEl) return;
+
+  // 1. update commitProgress
+  commitProgress = +slider.value;
+
+  // 2. convert 0–100 -> Date
+  commitMaxTime = timeScale.invert(commitProgress);
+
+  // 3. update the <time> element
+  timeEl.textContent = commitMaxTime.toLocaleString(undefined, {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  });
+}
+
+// attach listeners & initialize
+const timeSlider = document.querySelector('#commit-progress');
+if (timeSlider) {
+  timeSlider.addEventListener('input', onTimeSliderChange);
+  timeSlider.addEventListener('change', onTimeSliderChange);
+  onTimeSliderChange();  // set initial text
+}
+
