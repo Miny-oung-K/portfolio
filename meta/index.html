@@ -46,29 +46,44 @@
     -->
   </dl>
 
-  <h2>Commits by time of day</h2>
-  <div id="chart"></div>
+  <div id="scrolly-1">
 
+  <!-- LEFT COLUMN — narrative text -->
+  <div id="scatter-story">
+    <p>Scroll to see how the commits change and how the activity unfolds.</p>
+  </div>
 
-  <dl id="commit-tooltip" class="info tooltip" hidden>
-    <dt>Commit</dt>
-    <dd><a href="" id="commit-link" target="_blank" rel="noopener noreferrer"></a></dd>
+  <!-- RIGHT COLUMN — SCROLLY VISUALIZATION -->
+  <div id="scatter-plot">
+    <h2>Commits by time of day</h2>
+    <div id="chart"></div>
 
-    <dt>Date</dt>
-    <dd id="commit-date"></dd>
+    <!-- All tooltip & stats stay INSIDE this wrapper -->
+    <dl id="commit-tooltip" class="info tooltip" hidden>
+      <dt>Commit</dt>
+      <dd><a href="" id="commit-link" target="_blank" rel="noopener noreferrer"></a></dd>
 
-    <dt>Time</dt>
-    <dd id="commit-time-tooltip"></dd>
+      <dt>Date</dt>
+      <dd id="commit-date"></dd>
 
-    <dt>Author</dt>
-    <dd id="commit-author"></dd>
+      <dt>Time</dt>
+      <dd id="commit-time-tooltip"></dd>
 
-    <dt>Lines edited</dt>
-    <dd id="commit-lines"></dd>
-  </dl>
+      <dt>Author</dt>
+      <dd id="commit-author"></dd>
 
-  <p id="selection-count">No commits selected</p>
-  <dl id="language-breakdown" class="stats"></dl>
+      <dt>Lines edited</dt>
+      <dd id="commit-lines"></dd>
+    </dl>
+
+    <p id="selection-count">No commits selected</p>
+    <dl id="language-breakdown" class="stats"></dl>
+  </div>
+
+</div>
+
+<!-- NOW move the files list BELOW the scrolly -->
+<dl id="files"></dl>
 
   <!-- Only global.js (if you use it) and main.js as modules. 
        main.js already imports D3, so no extra d3 script tag needed. -->

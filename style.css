@@ -463,3 +463,32 @@ circle:hover { transform: scale(1.5); }
   border-radius: 50%;
 }
 
+/* === SCROLLY LAYOUT === */
+#scrolly-1 {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+#scrolly-1 > * {
+  flex: 1;
+}
+
+/* Left column (scrolling text) */
+#scatter-story {
+  position: relative;
+  padding-right: 1rem;
+  line-height: 1.6;
+}
+
+/* Right column (sticky visualization) */
+#scatter-plot {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 50vh;  /* IMPORTANT! sticky only works with fixed height */
+  overflow: visible;
+}
+
+

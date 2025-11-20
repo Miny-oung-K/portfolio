@@ -1,4 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+import scrollama from 'https://cdn.jsdelivr.net/npm/scrollama@3.2.0/+esm';
 
 async function loadData() {
   const rows = await d3.csv('./loc.csv', (row) => ({
@@ -16,12 +17,12 @@ async function loadData() {
 }
 
 function processCommits(data) {
-  return d3.groups(data, d => d.commit).map(([commit, lines]) => {
+  const commits = d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
     const { author, date, datetime } = first;
     const ret = {
       id: commit,
-      url: 'https://github.com/portfolio/commit/' + commit, // optional
+      url: 'https://github.com/portfolio/commit/' + commit,
       author,
       date,
       datetime,
@@ -31,7 +32,10 @@ function processCommits(data) {
     Object.defineProperty(ret, 'lines', { value: lines, enumerable: false, writable: false });
     return ret;
   });
+  commits.sort((a, b) => a.datetime - b.datetime);
+  return commits;
 }
+
 
 function computeSummary(data) {
   const commits = processCommits(data).length;
@@ -354,7 +358,7 @@ function updateFileDisplay(filteredCommits) {
   renderSummary(stats);
   renderScatterPlot(data, commits);
 
-  // Slider state
+  // ---------- Slider + filtering state ----------
   let commitProgress = 100;
 
   const timeScale = d3.scaleTime()
@@ -377,20 +381,87 @@ function updateFileDisplay(filteredCommits) {
       timeStyle: 'short',
     });
 
-    // filter commits
     filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
 
-    // NEW: update file display
-    updateFileDisplay(filteredCommits);
-
-    // update scatter plot
     updateScatterPlot(data, filteredCommits);
+    updateFileDisplay(filteredCommits);
   }
 
   const timeSlider = document.querySelector('#commit-progress');
   if (timeSlider) {
     timeSlider.addEventListener('input', onTimeSliderChange);
     timeSlider.addEventListener('change', onTimeSliderChange);
-    onTimeSliderChange(); // initialize UI & plot
+    onTimeSliderChange(); // initialize slider, plot, and file viz
   }
+
+  // ---------- Scrollytelling: create .step blocks ----------
+  d3.select('#scatter-story')
+    .selectAll('.step')
+    .data(commits)
+    .join('div')
+    .attr('class', 'step')
+    .html((d, i) => `
+      <p>
+        On ${d.datetime.toLocaleString('en', {
+          dateStyle: 'full',
+          timeStyle: 'short',
+        })},
+        I made
+        <a href="${d.url}" target="_blank">
+          ${i > 0 ? 'another glorious commit' : 'my first commit, and it was glorious'}
+        </a>.
+      </p>
+      <p>
+        I edited ${d.totalLines} lines across ${
+          d3.rollups(
+            d.lines,
+            D => D.length,
+            dd => dd.file,
+          ).length
+        } files.
+      </p>
+      <p>Then I looked over all I had made, and I saw that it was very good.</p>
+    `);
+
+  // Optional: space steps out a bit using CSS instead
+  // .step { padding-bottom: 60vh; }
+
+  // ---------- Scrollama setup ----------
+  function onStepEnter(response) {
+    const commit = response.element.__data__;
+    if (!commit) return;
+
+    // 1. Set max time to this commit's datetime
+    commitMaxTime = commit.datetime;
+
+    // 2. Sync slider position to this commit
+    commitProgress = timeScale(commitMaxTime);
+    const slider = document.querySelector('#commit-progress');
+    const timeEl = document.querySelector('#commit-time');
+    if (slider) slider.value = commitProgress;
+    if (timeEl) {
+      timeEl.textContent = commitMaxTime.toLocaleString(undefined, {
+        dateStyle: 'long',
+        timeStyle: 'short',
+      });
+    }
+
+    // 3. Filter commits up to this moment
+    filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
+
+    // 4. Update scatter plot and file unit viz
+    updateScatterPlot(data, filteredCommits);
+    updateFileDisplay(filteredCommits);
+  }
+
+  const scroller = scrollama();
+  scroller
+    .setup({
+      container: '#scrolly-1',
+      step: '#scrolly-1 .step',
+      // you can add offset: 0.5 if you want exact center trigger
+    })
+    .onStepEnter(onStepEnter);
+
+  window.addEventListener('resize', scroller.resize);
 })();
