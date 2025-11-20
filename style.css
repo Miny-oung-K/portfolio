@@ -273,7 +273,7 @@ button:hover {
 .summary-grid dt {
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: oklch(55% 0.06 250);
+  color: #ff4fa3;
   font-weight: 600;
   font-size: clamp(.9rem, 1.6vw, 1.05rem);
   margin: 0;

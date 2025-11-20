@@ -226,7 +226,7 @@ export function renderScatterPlot(data, commits) {
       .attr('cx', d => xScale(d.datetime))
       .attr('cy', d => yScale(d.hourFrac))
       .attr('r', d => rScale(d.totalLines))
-      .attr('fill', 'steelblue')
+      .attr('fill', '#ff4fa3')
       .style('fill-opacity', 0.7)
       .on('mouseenter', (event, commit) => {
         d3.select(event.currentTarget).style('fill-opacity', 1);
@@ -288,7 +288,7 @@ function updateScatterPlot(data, commits) {
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
-    .attr('fill', 'steelblue')
+    .attr('fill', '#ff4fa3')
     .style('fill-opacity', 0.7)
     .on('mouseenter', (event, commit) => {
       d3.select(event.currentTarget).style('fill-opacity', 1);
