@@ -419,8 +419,8 @@ function updateFileDisplay(filteredCommits) {
             dd => dd.file,
           ).length
         } files.
+        Then I looked over all I had made, and I saw that it was very good.
       </p>
-      <p>Then I looked over all I had made, and I saw that it was very good.</p>
     `);
 
   // Optional: space steps out a bit using CSS instead
